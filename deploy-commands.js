@@ -1,16 +1,21 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+// Used to register commands with discord server for slash commands auto complete
+const fs = require('node:fs');
+const path = require('node:path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
-const fs = require('fs');
 
-const commands = [
-	new SlashCommandBuilder().setName('cmds').setDescription('Replies with all the commands'),
-	new SlashCommandBuilder().setName('assign').setDescription('assign a role using a command'),
-	new SlashCommandBuilder().setName('poll').setDescription('Post a reaction poll'),
-	new SlashCommandBuilder().setName('dm').setDescription('DM caller\'s ID bot logs, discord logs, or server logs (Only owner can use this command'),
-	new SlashCommandBuilder().setName('die').setDescription('Shuts down the bot (Only owner can use this command)'),
-].map(command => command.toJSON());
+const commands = [];
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection
+	// With the key as the command name and the value as the exported module
+	commands.push(command.data.toJSON());
+}
 
 fs.writeFileSync('json/commands.json', commands.map(command => JSON.stringify(command)).join());
 
