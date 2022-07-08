@@ -1,10 +1,11 @@
+export {};
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('die')
-		.setDescription('Shuts down the bot (Only owner can use this command)'),
+		.setName('assign')
+		.setDescription('assign a role using a command'),
 	async execute(interaction) {
-		await interaction.reply('DIE');
+		await interaction.reply('ASSIGN');
 	},
 };
