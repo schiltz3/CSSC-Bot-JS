@@ -1,9 +1,12 @@
+import {Interaction} from 'discord.js';
+import {myClient} from '../myClient';
+
+
 module.exports = {
 	name: 'interactionCreate',
-	async execute(interaction) {
+	async execute(interaction:Interaction) {
 		if (!interaction.isCommand()) return;
-
-		const command = interaction.client.commands.get(interaction.commandName);
+		const command = (interaction.client as myClient).commands.get(interaction.commandName);
 		if (!command) return;
 
 		try {
