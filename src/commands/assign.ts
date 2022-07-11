@@ -1,11 +1,14 @@
+import { Command } from "../command";
+
 export {};
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = {
-	data: new SlashCommandBuilder()
+module.exports = new Command(
+	new SlashCommandBuilder()
 		.setName('assign')
 		.setDescription('assign a role using a command'),
-	async execute(interaction) {
+	false,
+	async (interaction) => {
 		await interaction.reply('ASSIGN');
 	},
-};
+);

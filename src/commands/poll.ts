@@ -1,6 +1,7 @@
 export {};
 const { SlashCommandBuilder } = require('@discordjs/builders');
-import {Command} from './command';
+import {Command} from '../command';
+import { BaseCommandInteraction } from 'discord.js';
 
 class ReactionPoll{
 	name;
@@ -19,10 +20,9 @@ module.exports = new Command(
 	new SlashCommandBuilder()
 		.setName('poll')
 		.setDescription('Post a reaction poll'),
-	{
-	async execute(interaction) {
-		interaction.partial
+	false,
+	async (interaction) => {
+		// interaction.partial
 		await interaction.reply('POLL');
 	}
-}
-);
+	)

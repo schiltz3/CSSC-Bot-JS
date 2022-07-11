@@ -5,6 +5,7 @@ import {myClient} from './myClient';
 import { token } from '../config.json';
 import fs from 'node:fs';
 import path from 'node:path';
+import { Command } from './command';
 
 
 const client: myClient = new myClient({
@@ -20,7 +21,7 @@ for (const file of commandFiles) {
 	const filePath: string = path.join(commandsPath, file);
 
 	// type is whatever is exported by command files
-	const command = require(filePath);
+	const command:Command = require(filePath);
 	client.commands.set(command.data.name, command);
 }
 
@@ -31,7 +32,7 @@ const eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.ends
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
-	if (event.once) {
+	if (event.once == true) {
 		client.once(event.name, (...args: any) => event.execute(...args));
 	}
 	else {

@@ -1,12 +1,20 @@
-export {};
+import { Command } from '../command';
+import { myClient } from '../myClient';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = {
-	data: new SlashCommandBuilder()
+
+module.exports = new Command(
+	new SlashCommandBuilder()
 		.setName('cmds')
 		.setDescription('Replies with all the commands'),
-	async execute(interaction:any) {
+	false,
+	async (interaction) => {
 		// interaction is 
-		await interaction.reply('CMDS');
-	},
-};
+		let message:string = "";
+		for (const command of (interaction.client as myClient).commands){
+			message += command[0] + ":\t" + command[1].data.description + "\n";
+		}
+		console.log(message);
+		await interaction.reply(message);
+	}
+)

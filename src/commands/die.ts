@@ -1,11 +1,13 @@
+import { Command } from '../command';
 export {};
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = {
-	data: new SlashCommandBuilder()
+module.exports = new Command(
+	new SlashCommandBuilder()
 		.setName('die')
 		.setDescription('Shuts down the bot (Only owner can use this command)'),
-	async execute(interaction) {
+	false,
+	async (interaction) => {
 		await interaction.reply('DIE');
 	},
-};
+);
